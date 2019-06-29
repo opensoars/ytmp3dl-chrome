@@ -1,6 +1,8 @@
 # ytmp3dl-chrome
 
-YouTube mp3 downloader - chrome extension module.
+YouTube mp3 downloader - chrome extension module. This Chrome extension adds a download button to YouTube.
+
+@TODO Screenshot
 
 This module uses the [ytmp3dl-server](https://github.com/opensoars/ytmp3dl-server) module, which used the [ytmp3dl-core](https://github.com/opensoars/ytmp3dl-core) module.
 
