@@ -2,6 +2,8 @@
 
 YouTube mp3 downloader - chrome extension module. This Chrome extension adds a download button to YouTube as well as an extension popup from which downloads can be started using either a video id or a YouTube url.
 
+This project is cloned from the old `prodl` project, this project needs modifications to work with `ytmp3dl-server`.
+
 @TODO Screenshot
 
 This module uses the [ytmp3dl-server](https://github.com/opensoars/ytmp3dl-server) module, which uses the [ytmp3dl-core](https://github.com/opensoars/ytmp3dl-core) module.
