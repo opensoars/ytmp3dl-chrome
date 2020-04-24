@@ -6,12 +6,13 @@
   "version": "0.1",
 
   "permissions": [
-      "tabs",
-      "webRequest",
-      "http://*/",
-      "https://*/",
-      "*://*/",
-      "bookmarks"
+    "tabs",
+    "activeTab",
+    "webRequest",
+    "http://*/",
+    "https://*/",
+    "*://*/",
+    "bookmarks"
   ],
 
   "content_scripts": [
