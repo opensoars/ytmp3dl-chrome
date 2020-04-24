@@ -10,19 +10,29 @@ This module uses the [ytmp3dl-server](https://github.com/opensoars/ytmp3dl-serve
 
 ## Install
 
-@TODO
+- `git clone https://github.com/opensoars/ytmp3dl-chrome`
+- Go to `chrome://extensions/` and make sure `Developer mode` is enabled
+- Click `Load unpacked` and open the cloned `extension` directory
 
 ## Requirements
 
-@TODO
+Chrome extension enabled browser.
 
 ## Use
 
-@TODO
+### YouTube download button
+
+### Popup
+
+#### Bookmarks
+
+#### YouTube URL
+
+#### Video id
 
 ## Develop
 
-@TODO
+`git clone https://github.com/opensoars/ytmp3dl-chrome`
 
 ## Contributing
 
