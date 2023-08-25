@@ -49,10 +49,10 @@ setTimeout(() => {
       })
         .then(res => res.json())
         .then(res => {
-          app.dom.els.dl_btn.style.background = 'green';
+          app.dom.helpers.setDlButtonFeedback(true);
         })
         .catch(err => {
-          app.dom.els.dl_btn.style.background = 'red';
+          app.dom.helpers.setDlButtonFeedback(false);
         });
 
       // chrome.runtime.sendMessage(json_data, app.handlers.onMsgRes);
@@ -116,6 +116,15 @@ setTimeout(() => {
      * Application DOM helper functions.
      */
     helpers: {
+      /**
+       * Color according to previous dl success status
+       * @param {undefined|boolean} success
+       */
+      setDlButtonFeedback: function (success) {
+        app.dom.els.dl_btn.style.background =
+          typeof success !== 'boolean' ? 'grey' : success ? 'green' : 'red';
+      },
+
       /**
        * Creates all elements used by the application and stores them in
        * app.dom.els.
@@ -200,6 +209,36 @@ setTimeout(() => {
     app.dom.helpers.createEls();
     app.dom.helpers.addEventListeners();
     app.dom.helpers.insertBtn();
+
+    function f() {
+      fetch('http://localhost:3333/downloads/')
+        .then(res => res.json())
+        .then(res => {
+          const dl = res[app.helpers.getVideoId(window.location.href)];
+          if (!dl) {
+            app.dom.helpers.setDlButtonFeedback(undefined);
+          } else if (dl.error) {
+            app.dom.helpers.setDlButtonFeedback(false);
+          } else if (dl.completed) {
+            app.dom.helpers.setDlButtonFeedback(true);
+          } else {
+            app.dom.helpers.setDlButtonFeedback(true);
+          }
+        })
+        .catch(err => {
+          app.dom.helpers.setDlButtonFeedback(false);
+        });
+    }
+
+    let href = window.location.href;
+    setInterval(() => {
+      if (href !== window.location.href) {
+        href = window.location.href;
+        f();
+      }
+    }, 1000);
+
+    f();
   };
 
   // Leggo
