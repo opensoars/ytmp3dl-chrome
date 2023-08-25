@@ -49,10 +49,10 @@ setTimeout(() => {
       })
         .then(res => res.json())
         .then(res => {
-          console.log('res', res);
-          if (res.error) {
-            alert(res.error);
-          }
+          app.dom.els.dl_btn.style.background = 'green';
+        })
+        .catch(err => {
+          app.dom.els.dl_btn.style.background = 'red';
         });
 
       // chrome.runtime.sendMessage(json_data, app.handlers.onMsgRes);
@@ -81,12 +81,15 @@ setTimeout(() => {
   app.dom = {
     /**
      * Application DOM elements collection.
+     * Were used to inject button at specific spot in dom,
+     * no longer used
      */
     els: {
-      btn_container:
-        document.getElementById('yt-masthead-user') ||
-        document.getElementById('yt-masthead-signin'),
-      upload_btn: document.getElementById('upload-btn')
+      button_container: document.getElementsByClassName('ytp-right-controls')[0]
+      // btn_container:
+      //   document.getElementById('yt-masthead-user') ||
+      //   document.getElementById('yt-masthead-signin'),
+      // upload_btn: document.getElementById('upload-btn')
     },
 
     /**
@@ -142,7 +145,7 @@ setTimeout(() => {
        * so it gets shown to the left of upload.
        */
       insertBtn: function () {
-        document.body.appendChild(app.dom.els.dl_btn);
+        app.dom.els.button_container.prepend(app.dom.els.dl_btn);
       },
 
       /**
@@ -156,13 +159,23 @@ setTimeout(() => {
         //   'yt-uix-button yt-uix-button-size-default' + ' yt-uix-button-primary';
         dl_btn.setAttribute('style', 'margin-right: 15px;');
 
-        dl_btn.style.position = 'absolute';
-        dl_btn.style.width = '50px';
-        dl_btn.style.height = '50px';
+        dl_btn.style.position = 'relative';
+        // dl_btn.style.top = '-20px';
+        dl_btn.style.background = 'grey';
+        dl_btn.style.color = 'white';
+        dl_btn.style.fontWeight = 'bold';
+        dl_btn.style.border = 'none';
+        dl_btn.style.borderRadius = '6px';
+        dl_btn.style.height = '30px';
+        dl_btn.style.width = '30px';
+        // dl_btn.style.height = '50px';
         // dl_btn.style.background = 'black';
         dl_btn.style.zIndex = 5000;
         dl_btn.style.right = '0px';
-        dl_btn.style.top = '50px';
+        dl_btn.style.top = '-22px';
+        dl_btn.style.cursor = 'pointer';
+
+        // dl_btn.style.top = '50px';
 
         return dl_btn;
       },
