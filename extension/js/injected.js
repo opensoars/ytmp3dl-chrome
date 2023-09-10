@@ -1,5 +1,5 @@
 setTimeout(() => {
-  console.log('ok???');
+  console.log('ytmp3dl-web initializing');
 
   var chrome = chrome || {};
 
@@ -206,39 +206,65 @@ setTimeout(() => {
    * Application initialization function.
    */
   app.init = function () {
-    app.dom.helpers.createEls();
-    app.dom.helpers.addEventListeners();
-    app.dom.helpers.insertBtn();
+    if (!window.location.href.includes('/watch')) {
+      console.log('not continue init cuz not on watch');
 
-    function f() {
-      fetch('http://localhost:3333/downloads/')
-        .then(res => res.json())
-        .then(res => {
-          const dl = res[app.helpers.getVideoId(window.location.href)];
-          if (!dl) {
-            app.dom.helpers.setDlButtonFeedback(undefined);
-          } else if (dl.error) {
-            app.dom.helpers.setDlButtonFeedback(false);
-          } else if (dl.completed) {
-            app.dom.helpers.setDlButtonFeedback(true);
-          } else {
-            app.dom.helpers.setDlButtonFeedback(true);
-          }
-        })
-        .catch(err => {
-          app.dom.helpers.setDlButtonFeedback(false);
-        });
+      setTimeout(() => {
+        app.init();
+      }, 1000);
+
+      return;
     }
 
-    let href = window.location.href;
-    setInterval(() => {
-      if (href !== window.location.href) {
-        href = window.location.href;
-        f();
-      }
-    }, 1000);
+    function init() {
+      try {
+        app.dom.els.button_container =
+          document.getElementsByClassName('ytp-right-controls')[0];
+        app.dom.helpers.createEls();
+        app.dom.helpers.addEventListeners();
+        app.dom.helpers.insertBtn();
 
-    f();
+        function f() {
+          console.log('getting');
+          fetch('http://localhost:3333/downloads/')
+            .then(res => res.json())
+            .then(res => {
+              const dl = res[app.helpers.getVideoId(window.location.href)];
+              if (!dl) {
+                app.dom.helpers.setDlButtonFeedback(undefined);
+              } else if (dl.error) {
+                app.dom.helpers.setDlButtonFeedback(false);
+              } else if (dl.completed) {
+                app.dom.helpers.setDlButtonFeedback(true);
+              } else {
+                app.dom.helpers.setDlButtonFeedback(true);
+              }
+            })
+            .catch(err => {
+              app.dom.helpers.setDlButtonFeedback(false);
+            });
+        }
+
+        let href = window.location.href;
+        setInterval(() => {
+          if (href !== window.location.href) {
+            href = window.location.href;
+            f();
+            console.log('interval f call');
+          }
+        }, 1000);
+
+        f();
+        console.log('initial f call');
+      } catch (err) {
+        console.log('init err', err);
+        setTimeout(() => {
+          init();
+        }, 1000);
+      }
+    }
+
+    init();
   };
 
   // Leggo
